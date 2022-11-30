@@ -76,6 +76,23 @@ html {
 html, body, #root {
   height: 100%;
 }
+
+:root {
+  --color-white: hsl(0deg 0% 100%);
+  --color-gray-100: hsl(185deg 5% 95%);
+  --color-gray-300: hsl(190deg 5% 80%);
+  --color-gray-500: hsl(196deg 4% 60%);
+  --dark-grey-deg: 220deg;
+  --color-gray-700: hsl(var(--dark-grey-deg) 5% 40%);
+  --color-gray-700-transparent: hsl(var(--dark-grey-deg) 5% 40% / 0.8);
+  --color-gray-900: hsl(var(--dark-grey-deg) 3% 20%);
+  --color-primary: hsl(340deg 65% 47%);
+  --color-secondary: hsl(240deg 60% 63%);
+
+  --font-weight-normal: 500;
+  --font-weight-medium: 600;
+  --font-weight-bold: 800;
+}
 `;
 
 export default GlobalStyles;
