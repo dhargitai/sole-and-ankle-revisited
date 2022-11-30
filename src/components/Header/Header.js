@@ -1,125 +1,138 @@
-import React from 'react';
-import styled from 'styled-components/macro';
+import React from "react";
+import styled from "styled-components/macro";
 
-import { QUERIES } from '../../constants';
-import Logo from '../Logo';
-import SuperHeader from '../SuperHeader';
-import MobileMenu from '../MobileMenu';
-import Icon from '../Icon';
+import { QUERIES } from "../../constants";
+import Logo from "../Logo";
+import SuperHeader from "../SuperHeader";
+import MobileMenu from "../MobileMenu";
+import Icon from "../Icon";
+import UnstyledButton from "../UnstyledButton";
+import VisuallyHidden from "../VisuallyHidden";
 
 const Header = () => {
-  const [showMobileMenu, setShowMobileMenu] = React.useState(false);
+    const [showMobileMenu, setShowMobileMenu] = React.useState(false);
 
-  // For our mobile hamburger menu, we'll want to use a button
-  // with an onClick handler, something like this:
-  //
-  // <button onClick={() => setShowMobileMenu(true)}>
+    // For our mobile hamburger menu, we'll want to use a button
+    // with an onClick handler, something like this:
+    //
+    // <button onClick={() => setShowMobileMenu(true)}>
 
-  return (
-    <HeaderWrapper>
-      <SuperHeader />
-      <MainHeader>
-        <Side>
-          <Logo />
-        </Side>
-        <Nav>
-          <NavLink href="/sale">Sale</NavLink>
-          <NavLink href="/new">New&nbsp;Releases</NavLink>
-          <NavLink href="/men">Men</NavLink>
-          <NavLink href="/women">Women</NavLink>
-          <NavLink href="/kids">Kids</NavLink>
-          <NavLink href="/collections">Collections</NavLink>
-          <NavLink href="/collections">Another</NavLink>
-          <NavLink href="/collections">One</NavLink>
+    return (
+        <HeaderWrapper>
+            <SuperHeader />
+            <MainHeader>
+                <LogoWrapper>
+                    <Logo />
+                </LogoWrapper>
+                <Nav>
+                    <NavLink href="/sale">Sale</NavLink>
+                    <NavLink href="/new">New&nbsp;Releases</NavLink>
+                    <NavLink href="/men">Men</NavLink>
+                    <NavLink href="/women">Women</NavLink>
+                    <NavLink href="/kids">Kids</NavLink>
+                    <NavLink href="/collections">Collections</NavLink>
+                    <NavLink href="/collections">Another</NavLink>
+                    <NavLink href="/collections">One</NavLink>
+                </Nav>
+                <MobileNav>
+                    <UnstyledButton>
+                        <VisuallyHidden>Open cart</VisuallyHidden>
+                        <Icon id="shopping-bag" />
+                    </UnstyledButton>
+                    <UnstyledButton>
+                        <VisuallyHidden>Search</VisuallyHidden>
+                        <Icon id="search" />
+                    </UnstyledButton>
+                    <UnstyledButton>
+                        <VisuallyHidden>Open menu</VisuallyHidden>
+                        <Icon
+                            id="menu"
+                            onClick={() => setShowMobileMenu(true)}
+                        />
+                    </UnstyledButton>
+                </MobileNav>
+                <Filler />
+            </MainHeader>
 
-          <MobileNavLink>
-            <Icon id="shopping-bag" />
-          </MobileNavLink>
-          <MobileNavLink>
-            <Icon id="search" />
-          </MobileNavLink>
-          <MobileNavLink>
-            <Icon id="menu" onClick={() => setShowMobileMenu(true)} />
-          </MobileNavLink>
-        </Nav>
-        <Side />
-      </MainHeader>
-
-      <MobileMenu
-        isOpen={showMobileMenu}
-        onDismiss={() => setShowMobileMenu(false)}
-      />
-    </HeaderWrapper>
-  );
+            <MobileMenu
+                isOpen={showMobileMenu}
+                onDismiss={() => setShowMobileMenu(false)}
+            />
+        </HeaderWrapper>
+    );
 };
 
 const HeaderWrapper = styled.header`
-overflow: auto;
-`
+    overflow: auto;
+`;
 
-const MobileNavLink = styled.a`
-  display: none;
+const MobileNav = styled.a`
+    display: none;
 
-  @media ${QUERIES.tablet} {
-    display: block;
-  }
-`
+    @media ${QUERIES.tablet} {
+        display: flex;
+        gap: 40px;
+        margin: 0;
+    }
+
+    @media ${QUERIES.mobile} {
+        gap: 20px;
+    }
+`;
 
 const MainHeader = styled.div`
-  display: flex;
-  align-items: baseline;
-  padding: 18px 32px;
-  height: 72px;
-  border-bottom: 1px solid var(--color-gray-300);
-
-  @media ${QUERIES.tablet} {
-    align-items: center;
-  }
+    display: flex;
+    align-items: baseline;
+    padding: 18px 32px;
+    border-bottom: 1px solid var(--color-gray-300);
+    
+    @media ${QUERIES.tablet} {
+      align-items: center;
+      justify-content: space-between;
+    }
+    
+    @media ${QUERIES.mobile} {
+      padding: 18px 16px;
+    }
 `;
 
 const Nav = styled.nav`
-  display: flex;
-  gap: clamp(
-    1.2rem,
-    8.5vw - 4.25rem,
-    3.5rem
-  );
-  margin: 0px 48px;
-
-  @media ${QUERIES.tablet} {
-    gap: 40px;
-    margin: 0;
-  }
-
-  @media ${QUERIES.mobile} {
-    gap: 20px;
-  }
+    display: flex;
+    gap: clamp(1.2rem, 8.5vw - 4.25rem, 3.5rem);
+    margin: 0px 48px;
 `;
 
-const Side = styled.div`
-  flex: 1;
+const LogoWrapper = styled.div`
+    flex: 1;
 
-  &:last-of-type {
+    @media ${QUERIES.tablet} {
+        flex: revert;
+    }
+`;
+
+
+const Filler = styled.div`
+    flex: 1;
+
     @media ${QUERIES.tablet} {
       display: none;
     }
-  }
 `;
 
 const NavLink = styled.a`
-  font-size: 1.125rem;
-  text-transform: uppercase;
-  text-decoration: none;
-  color: var(--color-gray-secondary);
-  font-weight: var(--font-weight-medium);
+    font-size: 1.125rem;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--color-gray-secondary);
+    font-weight: var(--font-weight-medium);
 
-  &:first-of-type {
-    color: var(--color-secondary);
-  }
+    &:first-of-type {
+        color: var(--color-secondary);
+    }
 
-  @media ${QUERIES.tablet} {
-    display: none;
-  }
+    @media ${QUERIES.tablet} {
+        display: none;
+    }
 `;
 
 export default Header;

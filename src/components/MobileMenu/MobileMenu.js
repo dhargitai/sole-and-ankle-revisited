@@ -16,10 +16,10 @@ const MobileMenu = ({ isOpen, onDismiss }) => {
         <Overlay isOpen={isOpen} onDismiss={onDismiss}>
             <Content aria-label="Menu">
                 <UpperPart>
-                    <UnstyledButton onClick={onDismiss}>
+                    <CloseButton onClick={onDismiss}>
                       <VisuallyHidden>Dismiss menu</VisuallyHidden>
                       <Icon id="close" />
-                    </UnstyledButton>
+                    </CloseButton>
                 </UpperPart>
                 <Nav>
                     <Link href="/sale">Sale</Link>
@@ -39,22 +39,20 @@ const MobileMenu = ({ isOpen, onDismiss }) => {
     );
 };
 
-/* const Button = styled.button`
-    background: 0;
-    border: 0;
-    cursor: pointer;
-    width: 40px;
-    height: 40px;
+const CloseButton = styled(UnstyledButton)`
+    padding: 16px;
     position: relative;
-` */
+    top: -20px;
+    left: -8px;
+`
 
 const Overlay = styled(DialogOverlay)`
-    background-color: var(--color-gray-700-transparent);
-    width: 100vw;
-    height: 100vh;
+    background-color: var(--color-backdrop);
     position: fixed;
     top: 0;
     left: 0;
+    right: 0;
+    bottom: 0;
     display: flex;
     justify-content: flex-end;
 `;
@@ -99,11 +97,12 @@ const Link = styled.a`
     font-weight: var(--font-weight-medium);
     color: var(--color-gray-900);
     text-transform: uppercase;
+    
+    &:first-of-type {
+      color: var(--color-secondary);
+    }
   }
   
-  &:hover {
-    color: var(--color-secondary);
-  }
 `
 
 export default MobileMenu;
