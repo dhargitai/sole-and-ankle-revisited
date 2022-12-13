@@ -1,24 +1,14 @@
-# Sole&Ankle, Revisited — Module 5 workshop
+# Sole&Ankle, Animated — Module 8 workshop
 
-In the Flexbox module, we built an e-commerce store:
+Once again, we're working on the sneaker store!
 
 ![A screenshot of the original Flexbox module workshop](./docs/original-desktop.png)
 
-In this workshop, we'll make this application responsive, so that it looks great and works well on phones and tablets:
+In this workshop, we're going to use our newly-acquired animation skills to breathe some life into this application.
 
-![A GIF showing how the design changes across viewport widths](./docs/resize-demo.gif)
+**Some parts of this workshop are unguided.** Each exercise will challenge you to go beyond the stated goal, to come up with your own twist on the interaction.
 
-The design can be found on Figma:
-
-- https://www.figma.com/file/kAL3AumTUV11y1IqHhltB6/Sole-and-Ankle-%E2%80%94-Mockup
-
-We'll use a **desktop-first** approach for this process, and our breakpoints will be set as follows:
-
-| Name   | Width (px) | Width (rem) |
-| ------ | ---------- | ----------- |
-| phone  | 600        | 37.5        |
-| tablet | 950        | 59.375      |
-| laptop | 1300       | 81.25       |
+Also, **don't forget about accessibility.** Significant motion should be disabled by default, and only enabled based on the `prefers-reduced-motion` media query.
 
 ## Troubleshooting
 
@@ -28,93 +18,72 @@ This guide addresses the common `Digital Envelope Routine` error you may have se
 
 ---
 
-## Exercise 1: Set up our breakpoints
+## Exercise 1: Sneaker Zoom
 
-Before we start tweaking the UI, let's add some structure to make it easy for us to use media queries.
+Add a hover/focus interaction to the sneakers so that the image zooms in slightly:
 
-It's up to you how you'd like to structure it! You can use the strategy discussed in [the “breakpoints” lesson](https://courses.joshwcomeau.com/css-for-js/05-responsive-css/07-breakpoints#managing-breakpoints), or you can use [styled-components' “theming” feature](https://styled-components.com/docs/advanced#theming).
+![Exercise 1 solution](./docs/ex1-solution.gif)
 
-Whichever approach you choose, your breakpoints should be specified in rems (not pixels).
+This might seem like a small task, but there are lots of little details that make it tricky. Pay close attention to the GIF. Some things to watch out for:
 
-## Exercise 2: Mobile header
+- The enter transition should be faster than the exit transition
+- The "flags" for new releases and sales should hang over the edge of the photo, as they do initially.
+- The corners should remain perfectly round at all times.
+- The shoes aren't centered within the photos, so if you zoom into the center of the photo, the shoe will appear to drop lower. Tweak the animation so that it zooms in on the shoe.
 
-On smaller screens, we want to switch up our header:
+The relevant component is `ShoeCard.js`.
 
-![Close-up screenshot of the new header](./docs/mobile-header.png)
+### Stretch Goal
 
-Our `SuperHeader` is removed, replaced with a decorative dark-gray line. The `Header`'s navigation is replaced by 3 icon buttons.
+Once you've matched the GIF above, it's time to get creative. Change or extend the animation. Experiment with different techniques and properties!
 
-On mobile, a lot of the spacing gets tightened up.
+Here are some ideas:
 
-**Be sure to check your work on a real mobile device.** You can use ngrok, as described in [the “Mobile Testing” lesson](https://courses.joshwcomeau.com/css-for-js/05-responsive-css/03-mobile-testing).
+- In addition to the photo zoom, tweak the new/sale flags in some way.
+- Use a CSS filter on the photo.
 
-## Exercise 3: Tweaks to our main view
+---
 
-On portrait tablet, our left-hand column disappears.
+## Exercise 2: Navigation link flip-up
 
-The categories are really more of a nice-to-have, so they're removed. The breadcrumbs, though, are important for navigation, so they move to sit just above the category heading:
+When hovering over the navigation links on desktop, they should "flip up", revealing a bold copy underneath:
 
-![Screenshot of the new breadcrumbs on tablet/phone](./docs/tablet-breadcrumbs.png)
+![Exercise 2 solution](./docs/ex2-solution.gif)
 
-On mobile, we lose the "Sort" filter as well:
+In order to accomplish this challenge, **you'll need to tweak the JSX.** There's no way to solve this problem in CSS alone. In particular, you'll need to duplicate the text inside each navigation link.
 
-![Screenshot of the top part of the screen on mobile, showing a gap where the “sort” filter was](./docs/mobile-no-sort-filter.png)
+The relevant component is `Header.js`. You may wish to create a new `NavLink` component, though it isn't required.
 
-## Exercise 4: Mobile menu
+### Stretch Goal
 
-Alright, let's implement the hamburger menu!
+Here's a list of over a dozen link hover animations: https://tympanus.net/Development/CreativeLinkEffects/
 
-For convenience, a new component has been created for you, `MobileMenu`. It's not really a modal yet, though. Your job is to make it look _and_ act like a modal.
+Try and implement another effect from the list!
 
-You'll need to update the hamburger-menu button we added in Exercise 2 to flip `showMobileMenu` to `true`.
+---
 
-You should use the `@reach/dialog` package to make sure that the modal is accessible. We took a quick look at this package in a bonus video, [“Building accessible modals”](https://courses.joshwcomeau.com/css-for-js/05-responsive-css/05-exercises#bonus-building-accessible-modals). You can check out the docs for more details:
+## Exercise 3: Modal enter animation
 
-- https://reach.tech/dialog/
+On mobile, add the following animations to the hamburger menu:
 
-(You may wish to skip the default styles that come with the package. This is explained in [their styling guide](https://reach.tech/styling/#skip-including-styles). The `--reach-dialog` flag has already been set for you, in `GlobalStyles.js`)
+![Exercise 3 solution](./docs/ex3-solution.gif)
 
-## Exercise 5: Fluid desktop navigation
+This effect consists of 3 individual animations:
 
-As it stands, our desktop navigation disappears _just_ before it runs out of space:
+1. The backdrop fades in.
+2. The drawer slides in from the right.
+3. The drawer's contents fade in.
 
-![Close-up GIF of the header. As the window shrinks, the layout changes just before the nav hits the edge](./docs/nav-barely-fits.gif)
+For bonus points, use a custom easing curve on the slide-in animation. You can configure one using this tool: https://cubic-bezier.com.
 
-What happens, though, if our Marketing friends rename the categories? Or, what happens when we internationalize the project, and the category names are rendered in a longer language?
+Don't worry about the exit animation; exit animations are difficult in React, and require a library like [React transition group](https://reactcommunity.org/react-transition-group/).
 
-![Screen recording of our site with French navigation links. They don't fit, so they spill out the side, causing a page-wide horizontal scroll.](./docs/french-nav-overflow.gif)
+The relevant component is `MobileMenu.js`.
 
-We can do two things to make this better:
+### Stretch Goal
 
-1. Manage the overflow in the header to scroll this section when it doesn't fit.
-2. Use fluid gaps between the nav links, to reduce the likelihood that this'll be required.
+Here are some ideas:
 
-Here's our goal:
-
-![Same situation, except now the spacing between items stretches and squashes depending on window width, and when the window gets too small, the content overflows with a scrollbar spanning the header](./docs/french-nav-overflow-fixed.gif)
-
-**NOTE:** Your solution doesn't have to match this GIF _exactly_. Don't worry about picking the perfect numbers! You can use the [“Fluid Calculator” tool](https://courses.joshwcomeau.com/css-for-js/05-responsive-css/16-fluid-calculator) to get close enough
-
-## Exercise 6: Theming with CSS Variables
-
-As it stands, we have a few colors in our `constants.js` file. When we want to use a color, we import and interpolate it:
-
-```jsx
-import { COLORS } from '../../constants';
-
-const Something = styled.p`
-  color: ${COLORS.gray[900]};
-`;
-```
-
-This works fine, but I personally prefer to use CSS variables for colors. It makes it a bit easier to write:
-
-```jsx
-const Something = styled.p`
-  color: var(--color-gray-900);
-`;
-```
-
-In this exercise, your goal is to update the project to use CSS variables for colors, and optionally font-weights.
-
-**BONUS:** The modal backdrop should use a CSS variable that is created using fragments from the main colors.
+- Experiment with different orchestrations, animating different elements at different times
+- Use a 3D transform on the drawer so that it swings in like a door closing rather than sliding in from offscreen
+- Instead of fading in all of the drawer's contents at once, add a staggered fade to the individual navigation links so that they fade in one by one, from the top down

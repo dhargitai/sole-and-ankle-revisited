@@ -3,6 +3,7 @@ import styled from "styled-components/macro";
 
 import { QUERIES } from "../../constants";
 import Logo from "../Logo";
+import NavLink from "../NavLink";
 import SuperHeader from "../SuperHeader";
 import MobileMenu from "../MobileMenu";
 import Icon from "../Icon";
@@ -100,6 +101,14 @@ const Nav = styled.nav`
     display: flex;
     gap: clamp(1.2rem, 8.5vw - 4.25rem, 3.5rem);
     margin: 0px 48px;
+
+    & > :first-of-type {
+        color: var(--color-secondary);
+    }
+
+    @media ${QUERIES.tablet} {
+        display: none;
+    }
 `;
 
 const LogoWrapper = styled.div`
@@ -116,22 +125,6 @@ const Filler = styled.div`
 
     @media ${QUERIES.tablet} {
       display: none;
-    }
-`;
-
-const NavLink = styled.a`
-    font-size: 1.125rem;
-    text-transform: uppercase;
-    text-decoration: none;
-    color: var(--color-gray-secondary);
-    font-weight: var(--font-weight-medium);
-
-    &:first-of-type {
-        color: var(--color-secondary);
-    }
-
-    @media ${QUERIES.tablet} {
-        display: none;
     }
 `;
 
