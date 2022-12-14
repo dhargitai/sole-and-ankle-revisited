@@ -87,7 +87,7 @@ html, body, #root {
   --color-gray-900: hsl(${COLORS.gray[900]});
   --color-primary: hsl(${COLORS.primary});
   --color-secondary: hsl(${COLORS.secondary});
-  --color-backdrop: hsl(var(--color-gray-700) / 0.8);
+  --color-backdrop: hsl(${COLORS.gray[700]} / 0.8);
 
   --font-weight-normal: 500;
   --font-weight-medium: 600;

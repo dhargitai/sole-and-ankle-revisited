@@ -1,15 +1,11 @@
 import React from "react";
 import styled from "styled-components/macro";
 
-import { QUERIES } from "../../constants";
-
 const NavLink = ({ href, children, delegated }) => {
-    // const [showMobileMenu, setShowMobileMenu] = React.useState(false);
     
     return (
-        <NavLinkWrapper href={href} {...delegated}>
-            <NavLinkText>{children}</NavLinkText>
-            <NavLinkHoverText>{children}</NavLinkHoverText>
+        <NavLinkWrapper href={href} data-hover={children} {...delegated}>
+            {children}
         </NavLinkWrapper>
     );
 };
@@ -18,15 +14,28 @@ const NavLinkWrapper = styled.a`
     font-size: 1.125rem;
     text-transform: uppercase;
     text-decoration: none;
-    color: var(--color-gray-secondary);
+    color: var(--color-gray-900);
     font-weight: var(--font-weight-medium);
-    display: flex;
-    flex-direction: column;
-    height: 1.5rem;
-    overflow: hidden;
+    position: relative;
+    border-top: 2px solid var(--color-gray-900);
+    display: inline-block;
+    
+    &::before {
+        transition: max-width 0.5s;
+        content: attr(data-hover);
+        color: var(--color-secondary);
+        max-width: 0;
+        overflow: hidden;
+        position: absolute;
+        border-bottom: 2px solid var(--color-secondary);
+    }
+
+    &:hover::before {
+        max-width: 100%;
+    }
 `;
 
-const NavLinkText = styled.span`
+/* const NavLinkText = styled.span`
     ${NavLinkWrapper}:hover & {
         transform: translateY(-100%);
     }
@@ -54,6 +63,6 @@ const NavLinkHoverText = styled.span`
             transition: transform 300ms ease;
         }
     }
-`;
+`; */
 
 export default NavLink;
