@@ -15,10 +15,17 @@ import UnstyledButton from "../UnstyledButton";
 import Icon from "../Icon";
 import VisuallyHidden from "../VisuallyHidden";
 
-const AnimatedDialogOverlay = animated(DialogOverlay);
 const AnimatedDialogContent = animated(DialogContent);
 
 const MobileMenu = ({ isOpen, onDismiss }) => {
+    const backDropTransApi = useSpringRef();
+    const backDropTransition = useTransition(isOpen, {
+        ref: backDropTransApi,
+        from: { opacity: 0 },
+        enter: { opacity: 0.8 },
+        config: config.stiff,
+    });
+
     const contentTransApi = useSpringRef();
     const contentTransition = useTransition(isOpen, {
         ref: contentTransApi,
@@ -61,16 +68,9 @@ const MobileMenu = ({ isOpen, onDismiss }) => {
     });
 
     useChain(
-        [contentTransApi, mainMenuItemsTransApi, footerMenuItemsTransApi],
-        [0, 0.3, 1.1]
+        [backDropTransApi, contentTransApi, mainMenuItemsTransApi, footerMenuItemsTransApi],
+        [0, 0.4, 0.7, 1.5]
     );
-
-    /* const transitions = useTransition(isOpen, {
-        from: { x: 100 },
-        enter: { x: 0 },
-        leave: { x: 100 },
-        config: config.stiff,
-    }); */
 
     if (!isOpen) {
         return null;
@@ -78,7 +78,10 @@ const MobileMenu = ({ isOpen, onDismiss }) => {
 
     return (
         <Overlay isOpen={isOpen} onDismiss={onDismiss}>
-            <BackDrop />
+            {backDropTransition(
+                (style, item) => item && (<BackDrop as={animated.div} style={style} />)
+            )}
+
             {contentTransition(
                 ({ x }, item) =>
                     item && (
@@ -160,7 +163,7 @@ const BackDrop = styled.div`
     right: 0;
     background-color: var(--color-gray-700);
     opacity: 0.8;
-    animation: ${fadeIn} 150ms ease;
+    /* animation: ${fadeIn} 150ms ease; */
 `;
 
 const Overlay = styled(DialogOverlay)`
@@ -171,6 +174,8 @@ const Overlay = styled(DialogOverlay)`
     bottom: 0;
     display: flex;
     justify-content: flex-end;
+    perspective: 250px;
+    transform-style: preserve-3d;
 `;
 
 const Content = styled(AnimatedDialogContent)`
